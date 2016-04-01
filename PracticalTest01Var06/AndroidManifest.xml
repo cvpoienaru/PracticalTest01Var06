@@ -28,7 +28,7 @@
         </activity>
         
         <service 
-      		android:name="ro.pub.cs.systems.eim.PracticalTest01Var06Service"
+      		android:name=".PracticalTest01Var06Service"
 	      android:enabled="true"
 	      android:exported="false" />
     </application>

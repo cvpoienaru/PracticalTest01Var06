@@ -5,7 +5,6 @@ public class Constants {
 		"Action1",
 		"Action2",
 	};
-	//public static final int NUMBER_OF_CLICKS_TRESHOLD = 7;
 	public static final int SERVICE_STARTED = 0;
 	public static final int SERVICE_STOPPED = 1;
 }
