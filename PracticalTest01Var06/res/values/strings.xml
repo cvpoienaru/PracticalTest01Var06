@@ -4,5 +4,14 @@
     <string name="app_name">PracticalTest01Var06</string>
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
+    <string name="first_box">Perfect Student</string>
+    <string name="more_details">More details</string>
+    <string name="less_details">Less details</string>
+    <string name="secondary_activity">Navigate to secondary activity</string>
+    <string name="pass">Pass</string>
+    <string name="fail">Fail</string>
+    <string name="ok">Ok</string>
+    <string name="cancel">Cancel</string>
+    <string name="title_activity_practical_test01_var06_secondary">PracticalTest01Var06SecondaryActivity</string>
 
 </resources>
