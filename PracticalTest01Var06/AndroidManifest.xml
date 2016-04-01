@@ -26,6 +26,11 @@
             android:name=".PracticalTest01Var06SecondaryActivity"
             android:label="@string/title_activity_practical_test01_var06_secondary" >
         </activity>
+        
+        <service 
+      		android:name="ro.pub.cs.systems.eim.PracticalTest01Var06Service"
+	      android:enabled="true"
+	      android:exported="false" />
     </application>
 
 </manifest>

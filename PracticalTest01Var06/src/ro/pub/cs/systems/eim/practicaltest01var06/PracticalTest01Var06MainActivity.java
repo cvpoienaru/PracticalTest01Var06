@@ -1,9 +1,13 @@
 package ro.pub.cs.systems.eim.practicaltest01var06;
 
 import android.app.Activity;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.text.Editable;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -49,10 +53,26 @@ public class PracticalTest01Var06MainActivity extends Activity {
 			if(url.startsWith("http://")) {
 				validationButton.setText(R.string.pass);
 				validationButton.setBackground(getResources().getDrawable(R.color.green));
+				Log.d("message", "validation");
+				
+				String uri = uriBox.getText().toString();
+				if(serviceStatus == Constants.SERVICE_STOPPED) {
+					Intent intent = new Intent(getApplicationContext(), PracticalTest01Var06Service.class);
+					intent.putExtra("uri", uri);
+					getApplicationContext().startService(intent);
+					serviceStatus = Constants.SERVICE_STARTED;
+				}
 			} else {
 				validationButton.setText(R.string.fail);
 				validationButton.setBackground(getResources().getDrawable(R.color.red));
 			}
+		}
+	}
+	
+	private class MessageBroadcastReceiver extends BroadcastReceiver {
+		@Override
+		public void onReceive(Context context, Intent intent) {
+			Log.d("[Message]", intent.getStringExtra("message"));			
 		}
 	}
 	
@@ -67,6 +87,7 @@ public class PracticalTest01Var06MainActivity extends Activity {
 		}
 	}
 	
+	private int serviceStatus = Constants.SERVICE_STOPPED;
 	private static final int SECONDARY_ACTIVITY_REQUEST_CODE = 2016;
 	private ButtonClickListener buttonListener = new ButtonClickListener();
 	private ValidationListener validationListener = new ValidationListener();
@@ -77,6 +98,27 @@ public class PracticalTest01Var06MainActivity extends Activity {
 	private EditText firstBox = null;
 	private EditText uriBox = null;
 	private LinearLayout layout = null;
+	private MessageBroadcastReceiver messageBroadcastReceiver = new MessageBroadcastReceiver();
+	private IntentFilter intentFilter = new IntentFilter();
+	
+	@Override
+	protected void onDestroy() {
+		Intent intent = new Intent(this, PracticalTest01Var06Service.class);
+		stopService(intent);
+		super.onDestroy();
+	}
+	
+	@Override
+	protected void onResume() {
+		super.onResume();
+		registerReceiver(messageBroadcastReceiver, intentFilter);
+	}
+	
+	@Override
+	protected void onPause() {
+		unregisterReceiver(messageBroadcastReceiver);
+		super.onPause();
+	}
 	
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent intent) {
@@ -115,6 +157,10 @@ public class PracticalTest01Var06MainActivity extends Activity {
 	        		Toast.LENGTH_LONG);
 			t.show();
         }
+        
+        for(int i = 0; i < Constants.actionType.length; ++i) {
+			intentFilter.addAction(Constants.actionType[i]);
+		}
     }
 
     @Override
